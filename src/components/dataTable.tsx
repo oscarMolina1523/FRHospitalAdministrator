@@ -27,11 +27,15 @@ import { Search } from "lucide-react";
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
+  filterColumn?: string;
+  filterPlaceholder?: string;
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
+  filterColumn,
+  filterPlaceholder,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -58,23 +62,25 @@ export function DataTable<TData, TValue>({
 
   return (
     <div className="w-full gap-4">
-      {/* Filtro por paciente */}
-      <div className="py-2 w-full flex items-center justify-end">
-        <div className="relative max-w-sm w-full">
-          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
+      {/* Filtro dinámico por columna (opcional) */}
+      {filterColumn && table.getColumn(filterColumn) ? (
+        <div className="py-2 w-full flex items-center justify-end">
+          <div className="relative max-w-sm w-full">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
 
-          <Input
-            placeholder="Filtrar por paciente..."
-            value={
-              (table.getColumn("patientId")?.getFilterValue() as string) ?? ""
-            }
-            onChange={(e) =>
-              table.getColumn("patientId")?.setFilterValue(e.target.value)
-            }
-            className="pl-10 w-full" 
-          />
+            <Input
+              placeholder={filterPlaceholder ?? "Filtrar..."}
+              value={
+                (table.getColumn(filterColumn)?.getFilterValue() as string) ?? ""
+              }
+              onChange={(e) =>
+                table.getColumn(filterColumn)?.setFilterValue(e.target.value)
+              }
+              className="pl-10 w-full"
+            />
+          </div>
         </div>
-      </div>
+      ) : null}
 
       {/* Tabla */}
       <div className="border rounded-xl overflow-hidden">
