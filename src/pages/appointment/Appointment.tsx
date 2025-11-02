@@ -3,9 +3,24 @@ import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { appointmentData as data } from "@/data/appointment.data";
+import type Appointment from "@/entities/appointment.model";
+import { DataTable } from "@/components/dataTable";
+import { getAppointmentColumns } from "./appointmentColumns";
 
 const AppointmentPage: React.FC = () => {
   const [date, setDate] = React.useState<Date | undefined>(new Date());
+  function handleEdit(appointment: Appointment) {
+    console.log("Editar cita:", appointment);
+    // Aquí puedes abrir un modal o navegar a otra ruta:
+    // navigate(`/appointments/edit/${appointment.id}`)
+  }
+
+  function handleDelete(id: string) {
+    console.log("Eliminar cita con ID:", id);
+    // Aquí puedes mostrar un confirm() o eliminar desde Firestore
+  }
+  
+  const columns = getAppointmentColumns(handleEdit, handleDelete);
 
   return (
     <div className="p-4 rounded-2xl bg-white w-full flex flex-col gap-2">
@@ -72,6 +87,9 @@ const AppointmentPage: React.FC = () => {
         </div>
       </div>
       {/* table */}
+      <div className="mt-6">
+        <DataTable columns={columns} data={data} />
+      </div>
     </div>
   );
 };
