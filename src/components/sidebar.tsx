@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
             key={item.title}
             onClick={() => navigate(item.url)}
             className={`w-full rounded-xl h-8 p-2 flex flex-row gap-4 items-center justify-start cursor-pointer transition-colors ${
-              isActive ? "bg-gray-300 font-medium" : "hover:bg-gray-100"
+              isActive ? "bg-sky-500 text-white font-medium" : "hover:bg-sky-300 hover:text-white"
             }`}
           >
             <item.icon className="h-4 w-4" />

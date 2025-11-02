@@ -31,11 +31,11 @@ export function getAppointmentColumns(
         const status = row.getValue("status") as string;
         const variant =
           status === "completed"
-            ? "default"
+            ? "bg-green-500"
             : status === "canceled"
-            ? "destructive"
-            : "outline";
-        return <Badge variant={variant}>{status}</Badge>;
+            ? "bg-red-500"
+            : "bg-yellow-500";
+        return <Badge className={variant}>{status}</Badge>;
       },
     },
     {
