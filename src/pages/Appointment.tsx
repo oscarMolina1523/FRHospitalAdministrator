@@ -1,16 +1,7 @@
 import React from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
-import {
-  ColumnDef,
-  useReactTable,
-  getCoreRowModel,
-  getPaginationRowModel,
-  getSortedRowModel,
-  getFilteredRowModel
-} from "@tanstack/react-table"
-import { Button } from "@/components/ui/button"
-import { Table, TableHeader, TableBody, TableCell } from "@/components/ui/table"
+import { Button } from "@/components/ui/button";
 import { appointmentData as data } from "@/data/appointment.data";
 
 const AppointmentPage: React.FC = () => {
@@ -35,11 +26,19 @@ const AppointmentPage: React.FC = () => {
         />
         <div className="border flex flex-col gap-4 max-w-92 rounded-2xl p-4 border-gray-300">
           <p className="font-medium leading-2">Citas del día</p>
-          {data.map((item, index) => (
-            <div key={index} className="flex flex-row bg-[#f8fafc] rounded-2xl p-4">
+          {data.slice(0, 3).map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-row bg-[#f8fafc] rounded-2xl p-4"
+            >
               <div>
                 <p className="text-left">
-                  Paciente: {item.patientId} — {item.doctorId} ({item.departmentId}) — {item.scheduledAt.toLocaleTimeString('es-NI', { hour: '2-digit', minute: '2-digit' })}
+                  Paciente: {item.patientId} — {item.doctorId} (
+                  {item.departmentId}) —{" "}
+                  {item.scheduledAt.toLocaleTimeString("es-NI", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
               <div>
@@ -50,11 +49,19 @@ const AppointmentPage: React.FC = () => {
         </div>
         <div className="border flex flex-col gap-4 max-w-92 rounded-2xl p-4 border-gray-300">
           <p className="font-medium leading-2">Proximas citas</p>
-          {data.map((item, index) => (
-            <div key={index} className="flex flex-row bg-[#f8fafc] rounded-2xl p-4">
+          {data.slice(0, 3).map((item, index) => (
+            <div
+              key={index}
+              className="flex flex-row bg-[#f8fafc] rounded-2xl p-4"
+            >
               <div>
                 <p className="text-left">
-                  Paciente: {item.patientId} — {item.doctorId} ({item.departmentId}) — {item.scheduledAt.toLocaleTimeString('es-NI', { hour: '2-digit', minute: '2-digit' })}
+                  Paciente: {item.patientId} — {item.doctorId} (
+                  {item.departmentId}) —{" "}
+                  {item.scheduledAt.toLocaleTimeString("es-NI", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                  })}
                 </p>
               </div>
               <div>
@@ -65,8 +72,6 @@ const AppointmentPage: React.FC = () => {
         </div>
       </div>
       {/* table */}
-
-
     </div>
   );
 };
