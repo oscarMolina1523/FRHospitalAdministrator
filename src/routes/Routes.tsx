@@ -1,6 +1,6 @@
 import MainLayout from "@/layouts/MainLayout";
 import AppointmentPage from "@/pages/appointment/Appointment";
-import BillingPage from "@/pages/Billing";
+import BillingPage from "@/pages/billing/Billing";
 import DashboardPage from "@/pages/Dashboard";
 import ErrorPage from "@/pages/Error";
 import ExpensePage from "@/pages/Expense";

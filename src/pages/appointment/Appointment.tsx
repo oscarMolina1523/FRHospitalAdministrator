@@ -88,7 +88,12 @@ const AppointmentPage: React.FC = () => {
       </div>
       {/* table */}
       <div className="mt-6">
-        <DataTable columns={columns} data={data} />
+        <DataTable
+          columns={columns}
+          data={data}
+          filterColumn="patientId"
+          filterPlaceholder="Filtrar por paciente..."
+        />
       </div>
     </div>
   );
