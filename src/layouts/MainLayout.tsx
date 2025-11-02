@@ -1,9 +1,11 @@
+import Navbar from "@/components/navbar";
 import React from "react";
 
 export const MainLayout: React.FC = () => {
   return (
-    <div>
-      <div>main layout</div>
+    <div className="w-full h-full flex flex-col items-center justify-between">
+      <Navbar/>
+      <div>end</div>
     </div>
   );
 };
