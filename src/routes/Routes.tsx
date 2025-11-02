@@ -1,0 +1,49 @@
+import MainLayout from "@/layouts/MainLayout";
+import AppointmentPage from "@/pages/Appointment";
+import BillingPage from "@/pages/Billing";
+import DashboardPage from "@/pages/Dashboard";
+import ErrorPage from "@/pages/Error";
+import ExpensePage from "@/pages/Expense";
+import InventoryPage from "@/pages/Inventory";
+import UserPage from "@/pages/User";
+import { createBrowserRouter, Navigate } from "react-router-dom";
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <MainLayout />,
+    children: [
+      {
+        index: true,
+        element: <Navigate to="/home" />
+      },
+      {
+        path: "home",
+        element: <AppointmentPage />,
+      },
+      {
+        path: "billing",
+        element: <BillingPage/>,
+      },
+      {
+        path: "expense",
+        element: <ExpensePage/>,
+      },
+      {
+        path: "inventory",
+        element: <InventoryPage/>,
+      },
+      {
+        path: "user",
+        element: <UserPage/>,
+      },
+      {
+        path: "dashboard",
+        element: <DashboardPage/>,
+      },
+    ],
+  },
+  { path: "*", element: <ErrorPage /> },
+]);
+
+export default router;
