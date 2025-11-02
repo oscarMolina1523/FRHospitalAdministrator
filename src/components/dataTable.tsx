@@ -1,71 +1,161 @@
-import type { ColumnDef } from "@tanstack/react-table";
+import * as React from "react";
+import type {
+  ColumnDef,
+  SortingState,
+  ColumnFiltersState,
+} from "@tanstack/react-table";
 import {
-  flexRender,
-  getCoreRowModel,
   useReactTable,
-} from "@tanstack/react-table"
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+  getCoreRowModel,
+  getSortedRowModel,
+  getFilteredRowModel,
+  getPaginationRowModel,
+  flexRender,
+} from "@tanstack/react-table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Search } from "lucide-react";
 
-/**
- * Props genéricas para que el componente sea reutilizable.
- * TData → tipo de los datos (por ejemplo: Appointment, Patient, Doctor, etc.)
- * TValue → tipo de los valores de columna
- */
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[] // configuración de columnas
-  data: TData[]                       // datos que se van a mostrar
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
 }
 
-/**
- * Componente DataTable genérico
- * Reutilizable en cualquier parte del proyecto
- */
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-  // Crea la tabla con TanStack
+export function DataTable<TData, TValue>({
+  columns,
+  data,
+}: DataTableProps<TData, TValue>) {
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  );
+
   const table = useReactTable({
     data,
     columns,
+    state: {
+      sorting,
+      columnFilters,
+    },
+    onSortingChange: setSorting,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
-  })
+    getSortedRowModel: getSortedRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    initialState: {
+      pagination: { pageIndex: 0, pageSize: 10 },
+    },
+  });
 
-  // Renderiza la tabla usando los componentes UI de ShadCN
   return (
-    <div className="border rounded-xl overflow-hidden">
-      <Table>
-        <TableHeader className="bg-blue-600">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => (
-                <TableHead key={header.id} className="text-center  text-white">
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(header.column.columnDef.header, header.getContext())}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
+    <div className="w-full gap-4">
+      {/* Filtro por paciente */}
+      <div className="py-2 w-full flex items-center justify-end">
+        <div className="relative max-w-sm w-full">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
 
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id}>
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell key={cell.id}>
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+          <Input
+            placeholder="Filtrar por paciente..."
+            value={
+              (table.getColumn("patientId")?.getFilterValue() as string) ?? ""
+            }
+            onChange={(e) =>
+              table.getColumn("patientId")?.setFilterValue(e.target.value)
+            }
+            className="pl-10 w-full" 
+          />
+        </div>
+      </div>
+
+      {/* Tabla */}
+      <div className="border rounded-xl overflow-hidden">
+        <Table>
+          <TableHeader className="bg-blue-600">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="text-center text-white cursor-pointer"
+                    onClick={() => header.column.toggleSorting()}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    {header.column.getIsSorted() === "asc"
+                      ? " ▲"
+                      : header.column.getIsSorted() === "desc"
+                      ? " ▼"
+                      : ""}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="text-center h-24">
-                No hay resultados
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+
+          <TableBody>
+            {table.getRowModel().rows.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow key={row.id}>
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell key={cell.id}>
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="text-center h-24"
+                >
+                  No hay resultados
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Paginación */}
+      <div className="space-x-2 mt-2">
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => table.previousPage()}
+          disabled={!table.getCanPreviousPage()}
+        >
+          Anterior
+        </Button>
+        <span>
+          Página {table.getState().pagination.pageIndex + 1} de{" "}
+          {table.getPageCount()}
+        </span>
+        <Button
+          size="sm"
+          variant="outline"
+          onClick={() => table.nextPage()}
+          disabled={!table.getCanNextPage()}
+        >
+          Siguiente
+        </Button>
+      </div>
     </div>
-  )
+  );
 }
