@@ -1,4 +1,4 @@
-import { Book, Calendar, ChartArea, Home, Pill, PillBottle, Stethoscope, User2, Wallet } from "lucide-react";
+import { Accessibility, Book, Calendar, ChartArea, Home, Pill, PillBottle, Stethoscope, User2, Wallet } from "lucide-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -10,6 +10,7 @@ const items = [
   { title: "Medicamentos", url: "/medication", icon: PillBottle },
   { title: "Servicios medicos", url: "/medical-service", icon: Stethoscope },
   { title: "Usuarios", url: "/user", icon: User2 },
+  { title: "Pacientes", url: "/patient", icon: Accessibility },
   { title: "Departamentos", url: "/department", icon: Home },
   { title: "Crecimiento monetario", url: "/dashboard", icon: ChartArea },
 ];

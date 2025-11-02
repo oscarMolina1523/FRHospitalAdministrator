@@ -8,6 +8,7 @@ import ExpensePage from "@/pages/expense/Expense";
 import InventoryPage from "@/pages/inventory/Inventory";
 import MedicalServicePage from "@/pages/medicalService/MedicalService";
 import MedicationPage from "@/pages/medication/Medication";
+import PatientPage from "@/pages/patients/Patient";
 import UserPage from "@/pages/user/User";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
@@ -47,6 +48,10 @@ const router = createBrowserRouter([
       {
         path: "user",
         element: <UserPage/>,
+      },
+      {
+        path: "patient",
+        element: <PatientPage/>,
       },
       {
         path: "department",
