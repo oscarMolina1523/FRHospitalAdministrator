@@ -3,7 +3,7 @@ import Sidebar from "@/components/sidebar";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-export const MainLayout: React.FC = () => {
+const MainLayout: React.FC = () => {
   return (
     <div className="w-full h-full flex flex-col gap-4">
       <Navbar />

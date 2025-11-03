@@ -1,3 +1,4 @@
+import AuthLayout from "@/layouts/AuthLayout";
 import MainLayout from "@/layouts/MainLayout";
 import AppointmentPage from "@/pages/appointment/Appointment";
 import BillingPage from "@/pages/billing/Billing";
@@ -6,15 +7,35 @@ import DepartmentPage from "@/pages/department/Department";
 import ErrorPage from "@/pages/Error";
 import ExpensePage from "@/pages/expense/Expense";
 import InventoryPage from "@/pages/inventory/Inventory";
+import LoginPage from "@/pages/Login";
 import AuditLogPage from "@/pages/logs/AuditLog";
 import MedicalServicePage from "@/pages/medicalService/MedicalService";
 import MedicationPage from "@/pages/medication/Medication";
 import PatientPage from "@/pages/patients/Patient";
+import RegisterPage from "@/pages/Register";
 import RolePage from "@/pages/role/Role";
 import UserPage from "@/pages/user/User";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 
 const router = createBrowserRouter([
+  {
+    path: "/auth",
+    element: <AuthLayout />,
+    children: [
+      {
+        index: true, // Esta propiedad indica que esta es la ruta por defecto
+        element: <Navigate to="login" /> 
+      },
+      {
+        path: "login",
+        element: <LoginPage />
+      },
+      {
+        path: "register",
+        element: <RegisterPage />
+      },
+    ],
+  },
   {
     path: "/",
     element: <MainLayout />,
