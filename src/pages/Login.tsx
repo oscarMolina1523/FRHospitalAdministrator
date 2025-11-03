@@ -24,7 +24,7 @@ const LoginPage: React.FC = () => {
       </div>
       <div className="flex flex-row gap-2 w-full text-end items-center justify-center">
         <label>No tienes cuenta?</label>
-        <a onClick={() => navigate("/auth/register")} className="text-ocean-sky-blue hover:underline">Registrarse</a>
+        <a onClick={() => navigate("/auth/register")} className="text-blue-500 font-semibold hover:underline">Registrarse</a>
       </div>
     </div>
   );

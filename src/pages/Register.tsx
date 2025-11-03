@@ -42,10 +42,10 @@ const RegisterPage: React.FC = () => {
       <div className="flex flex-row gap-2 w-full text-end items-center justify-center">
         <label>Ya tienes cuenta?</label>
         <a
-          onClick={() => navigate("/auth/register")}
-          className="text-ocean-sky-blue hover:underline"
+          onClick={() => navigate("/auth/login")}
+          className="text-blue-500 font-semibold hover:underline"
         >
-          Registrarse
+          login
         </a>
       </div>
     </div>
