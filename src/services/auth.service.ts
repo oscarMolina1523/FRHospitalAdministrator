@@ -19,8 +19,19 @@ export default class AuthService extends HTTPService {
       throw new Error("Username, email and password are required");
     }
 
-    const body = { name: username, email: newemail, password: newpassword };
+    const body = { username, email: newemail, password: newpassword };
     const json = await this.post("auth/register", body);
-    return new Token(json.token);
+    console.log("Respuesta del registro:", json);
+
+    // Verificar si hubo error del backend
+    if (!json.success) {
+      throw new Error(json.message || "Error al registrar usuario");
+    }
+
+    // backend no retorna token al registrar
+    return {
+      message: json.message || "Registro exitoso",
+      user: json.user || null,
+    };
   }
 }
