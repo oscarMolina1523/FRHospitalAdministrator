@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import AuthService from "@/services/auth.service";
 
 const authService = new AuthService();
+
 const LoginPage: React.FC = () => {
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);

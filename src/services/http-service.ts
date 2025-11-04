@@ -1,4 +1,4 @@
-import {API_BASE_URL} from "./api";
+import { API_BASE_URL } from "./api";
 
 export default class HTTPService {
   baseUrl = "";
@@ -45,15 +45,15 @@ export default class HTTPService {
         },
         body: JSON.stringify(body),
       });
+
+      const json = await response.json();
+
       if (!response.ok) {
-        const errorText = await response.text();
-         console.error("Error posting data:", errorText);
-        throw new Error("Network response was not ok");
+        throw new Error(json.message || "Error en la solicitud");
       }
-      return await response.json();
-    } catch (error) {
-      console.error("Error posting data:", error);
-      throw error;
+      return json;
+    } catch (error: any) {
+      throw new Error(error.message || "Error desconocido");
     }
   }
 
