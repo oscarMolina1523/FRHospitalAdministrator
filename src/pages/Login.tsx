@@ -33,7 +33,7 @@ const LoginPage: React.FC = () => {
       localStorage.setItem("authToken", token.token);
       navigate("/home");
     } catch (error) {
-      setError(`Error en login ${error}`);
+      setError(`${error}`);
     }
   };
 
