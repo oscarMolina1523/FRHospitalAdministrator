@@ -7,10 +7,13 @@ export default class AuthService extends HTTPService {
     const json = await this.post("auth/login", body);
     console.log("Respuesta del login:", json);
 
-    // 🚨 Si no hay token, el login falló
+    // Si no hay token, el login falló
     if (!json.token) {
       throw new Error(json.message || "Credenciales inválidas");
     }
+
+    localStorage.setItem("currentUser", JSON.stringify(json.user));
+
     return new Token(json.token);
   }
 

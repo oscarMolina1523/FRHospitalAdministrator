@@ -32,7 +32,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  const fetchUserById = useCallback(async () => {
+  const fetchUsersByDepartment = useCallback(async () => {
     setLoadingUser(true);
     try {
       const usersByDept = await userService.getUserByDepartment();
@@ -56,7 +56,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         loadingUser,
         errorUser,
         fetchUsers,
-        fetchUserById,
+        fetchUsersByDepartment,
       }}
     >
       {children}

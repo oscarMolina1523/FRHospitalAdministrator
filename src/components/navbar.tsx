@@ -1,6 +1,18 @@
+import User from "@/entities/user.model";
 import React from "react";
 
 const Navbar: React.FC = () => {
+
+  let stored = localStorage.getItem("currentUser");
+
+  let data: User | null = null;
+
+  if (stored) {
+    const parsed = JSON.parse(stored);
+
+    data = User.fromJson(parsed);
+  }
+
   return (
     <div className="h-20 w-screen flex flex-row bg-white">
       <div className="w-1/2 h-full flex items-center justify-start p-8 leading-7">
@@ -9,8 +21,8 @@ const Navbar: React.FC = () => {
         </p>
       </div>
       <div className="w-1/2 h-full flex flex-col items-end justify-end py-4 px-8 ">
-        <p className="font-medium">Dr.Carlos Martinez</p>
-        <p className="text-[#64748b]">CEO</p>
+        <p className="font-medium">{data?.username}</p>
+        <p className="text-[#64748b]">{data?.roleId}</p>
       </div>
     </div>
   );

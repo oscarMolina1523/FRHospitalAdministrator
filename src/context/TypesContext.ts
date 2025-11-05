@@ -6,5 +6,5 @@ export type UserContextType = {
   loadingUser: boolean;
   errorUser?: string;
   fetchUsers: () => Promise<void>;
-  fetchUserById: (userId: string) => Promise<void>;
+  fetchUsersByDepartment: () => Promise<void>;
 };

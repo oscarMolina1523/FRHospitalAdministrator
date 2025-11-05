@@ -23,6 +23,7 @@ const Sidebar: React.FC = () => {
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
+    localStorage.removeItem("currentUser");
 
     navigate("/auth", { replace: true });
   };
