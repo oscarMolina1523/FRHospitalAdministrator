@@ -33,4 +33,24 @@ export default class KPI extends BaseModel {
     this.createdAt = createdAt;
     this.createdBy = createdBy;
   }
+
+  static fromJson(json: any): KPI {
+    const id = String(json["id"] || "");
+    const name = String(json["name"] || "");
+    const departmentId = json["departmentId"] ? String(json["departmentId"]) : undefined;
+    const value = Number(json["value"] || 0);
+    const metricDate = json["metricDate"] ? new Date(json["metricDate"]) : new Date();
+    const createdAt = json["createdAt"] ? new Date(json["createdAt"]) : undefined;
+    const createdBy = json["createdBy"] ? String(json["createdBy"]) : undefined;
+
+    return new KPI({
+      id,
+      name,
+      departmentId,
+      value,
+      metricDate,
+      createdAt,
+      createdBy,
+    });
+  }
 }
