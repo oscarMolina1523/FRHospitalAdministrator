@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { getMedicalServiceColumns } from "./medicalServiceColumns";
-import { medicalServiceData as data } from "@/data/medicalService.data";
 import type MedicalService from "@/entities/medicalService.model";
 import { DataTable } from "@/components/dataTable";
+import { useMedicalServiceContext } from "@/context/MedicalServiceContext";
 
 const MedicalServicePage: React.FC = () => {
+  const {
+    medicalServices: data,
+    loadingMedicalService,
+    errorMedicalService,
+    fetchMedicalServices,
+  } = useMedicalServiceContext();
+
+  useEffect(() => {
+    fetchMedicalServices();
+  }, [fetchMedicalServices]);
+
   function handleEdit(medicalService: MedicalService) {
     console.log("Editar medicalService:", medicalService);
   }
@@ -15,6 +26,14 @@ const MedicalServicePage: React.FC = () => {
   }
 
   const columns = getMedicalServiceColumns(handleEdit, handleDelete);
+
+  if (loadingMedicalService) {
+    return <div className="p-4 text-gray-500">Cargando servicios medicos...</div>;
+  }
+
+  if (errorMedicalService) {
+    return <div className="p-4 text-red-600">Error: {errorMedicalService}</div>;
+  }
 
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">

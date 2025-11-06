@@ -2,6 +2,7 @@ import type Appointment from "@/entities/appointment.model";
 import type Billing from "@/entities/billing.model";
 import type Expense from "@/entities/expense.model";
 import type Inventory from "@/entities/inventory.model";
+import type MedicalService from "@/entities/medicalService.model";
 import type { Medication } from "@/entities/medication.model";
 import type User from "@/entities/user.model";
 
@@ -59,4 +60,14 @@ export type MedicationContextType = {
   errorMedication?: string;
   fetchMedications: () => Promise<void>;
   refetchMedications: () => Promise<void>;
+};
+
+export type MedicalServiceContextType = {
+  medicalServices: MedicalService[];
+  medicalServicesByDepartment:MedicalService[];
+  loadingMedicalService: boolean;
+  errorMedicalService?: string;
+  fetchMedicalServices: () => Promise<void>;
+  fetchMedicalServicesByDepartment: () => Promise<void>;
+  refetchMedicalServices: () => Promise<void>;
 };

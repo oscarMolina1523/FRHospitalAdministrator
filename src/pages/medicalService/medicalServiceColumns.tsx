@@ -39,10 +39,10 @@ export function getMedicalServiceColumns(
     },
     {
       accessorKey: "baseCost",
-      header: "Costo Base (USD)",
+      header: "Costo Base (C$)",
       cell: ({ row }) => {
         const cost = Number(row.getValue("baseCost"));
-        return <div>${cost.toFixed(2)}</div>;
+        return <div>C${cost.toFixed(2)}</div>;
       },
     },
     {
