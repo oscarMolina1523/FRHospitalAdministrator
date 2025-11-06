@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { appointmentData as data } from "@/data/appointment.data";
 import type Appointment from "@/entities/appointment.model";
 import { DataTable } from "@/components/dataTable";
 import { getAppointmentColumns } from "./appointmentColumns";
+import { useAppointmentContext } from "@/context/AppointmentContext";
 
 const AppointmentPage: React.FC = () => {
+  const {
+    appointments: data,
+    loadingAppointment,
+    errorAppointment,
+    fetchAppointments,
+  } = useAppointmentContext();
   const [date, setDate] = React.useState<Date | undefined>(new Date());
+
+  useEffect(() => {
+    fetchAppointments();
+  }, [fetchAppointments]);
+
   function handleEdit(appointment: Appointment) {
     console.log("Editar cita:", appointment);
     // Aquí puedes abrir un modal o navegar a otra ruta:
@@ -19,8 +30,16 @@ const AppointmentPage: React.FC = () => {
     console.log("Eliminar cita con ID:", id);
     // Aquí puedes mostrar un confirm() o eliminar desde Firestore
   }
-  
+
   const columns = getAppointmentColumns(handleEdit, handleDelete);
+
+  if (loadingAppointment) {
+    return <div className="p-4 text-gray-500">Cargando usuarios...</div>;
+  }
+
+  if (errorAppointment) {
+    return <div className="p-4 text-red-600">Error: {errorAppointment}</div>;
+  }
 
   return (
     <div className="p-4 rounded-2xl bg-white w-full flex flex-col gap-2">

@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
+import { AppointmentProvider } from "@/context/AppointmentContext";
 import { UserProvider } from "@/context/UserContext";
 import React from "react";
 import { Outlet } from "react-router-dom";
@@ -12,11 +13,13 @@ const MainLayout: React.FC = () => {
         <div className="w-1/4 px-2">
           <Sidebar />
         </div>
-        <UserProvider>
-          <div className="w-3/4 px-2">
-            <Outlet />
-          </div>
-        </UserProvider>
+        <AppointmentProvider>
+          <UserProvider>
+            <div className="w-3/4 px-2">
+              <Outlet />
+            </div>
+          </UserProvider>
+        </AppointmentProvider>
       </div>
     </div>
   );

@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import React, { useEffect } from "react";
 import { getUserColumns } from "./userColumns";
-// import { userData as data } from "@/data/user.data";
 import { DataTable } from "@/components/dataTable";
 import type User from "@/entities/user.model";
 import { useUserContext } from "@/context/UserContext";
