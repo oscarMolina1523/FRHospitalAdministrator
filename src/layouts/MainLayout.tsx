@@ -2,6 +2,7 @@ import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
 import { AppointmentProvider } from "@/context/AppointmentContext";
 import { BillingProvider } from "@/context/BillingContext";
+import { DepartmentProvider } from "@/context/DepartmentContext";
 import { ExpenseProvider } from "@/context/ExpenseContext";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { MedicalServiceProvider } from "@/context/MedicalServiceContext";
@@ -20,27 +21,29 @@ const MainLayout: React.FC = () => {
         <div className="w-1/4 px-2">
           <Sidebar />
         </div>
-        <RoleProvider>
-          <PatientProvider>
-            <MedicalServiceProvider>
-              <MedicationProvider>
-                <InventoryProvider>
-                  <ExpenseProvider>
-                    <BillingProvider>
-                      <AppointmentProvider>
-                        <UserProvider>
-                          <div className="w-3/4 px-2">
-                            <Outlet />
-                          </div>
-                        </UserProvider>
-                      </AppointmentProvider>
-                    </BillingProvider>
-                  </ExpenseProvider>
-                </InventoryProvider>
-              </MedicationProvider>
-            </MedicalServiceProvider>
-          </PatientProvider>
-        </RoleProvider>
+        <DepartmentProvider>
+          <RoleProvider>
+            <PatientProvider>
+              <MedicalServiceProvider>
+                <MedicationProvider>
+                  <InventoryProvider>
+                    <ExpenseProvider>
+                      <BillingProvider>
+                        <AppointmentProvider>
+                          <UserProvider>
+                            <div className="w-3/4 px-2">
+                              <Outlet />
+                            </div>
+                          </UserProvider>
+                        </AppointmentProvider>
+                      </BillingProvider>
+                    </ExpenseProvider>
+                  </InventoryProvider>
+                </MedicationProvider>
+              </MedicalServiceProvider>
+            </PatientProvider>
+          </RoleProvider>
+        </DepartmentProvider>
       </div>
     </div>
   );

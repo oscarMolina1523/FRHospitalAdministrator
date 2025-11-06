@@ -1,5 +1,6 @@
 import type Appointment from "@/entities/appointment.model";
 import type Billing from "@/entities/billing.model";
+import type Department from "@/entities/department.model";
 import type Expense from "@/entities/expense.model";
 import type Inventory from "@/entities/inventory.model";
 import type MedicalService from "@/entities/medicalService.model";
@@ -90,4 +91,12 @@ export type RoleContextType = {
   errorRole?: string;
   fetchRoles: () => Promise<void>;
   refetchRoles: () => Promise<void>;
+};
+
+export type DepartmentContextType = {
+  departments: Department[];
+  loadingDepartment: boolean;
+  errorDepartment?: string;
+  fetchDepartments: () => Promise<void>;
+  refetchDepartments: () => Promise<void>;
 };

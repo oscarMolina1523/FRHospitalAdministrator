@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { getDepartmentColumns } from "./departmentColumns";
-import { departmentData as data } from "@/data/department.data";
 import { DataTable } from "@/components/dataTable";
 import type Department from "@/entities/department.model";
+import { useDepartmentContext } from "@/context/DepartmentContext";
 
 const DepartmentPage: React.FC = () => {
+  const {
+    departments: data,
+    loadingDepartment,
+    errorDepartment,
+    fetchDepartments,
+  } = useDepartmentContext();
+
+  useEffect(() => {
+    fetchDepartments();
+  }, [fetchDepartments]);
+
   function handleEdit(department: Department) {
     console.log("Editar department:", department);
   }
@@ -14,7 +25,15 @@ const DepartmentPage: React.FC = () => {
     console.log("Eliminar inentory con ID:", id);
   }
 
-  const columns=getDepartmentColumns(handleEdit, handleDelete);
+  const columns = getDepartmentColumns(handleEdit, handleDelete);
+
+  if (loadingDepartment) {
+    return <div className="p-4 text-gray-500">Cargando departamentos...</div>;
+  }
+
+  if (errorDepartment) {
+    return <div className="p-4 text-red-600">Error: {errorDepartment}</div>;
+  }
 
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">
