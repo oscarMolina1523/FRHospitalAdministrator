@@ -1,6 +1,7 @@
 import type Appointment from "@/entities/appointment.model";
 import type Billing from "@/entities/billing.model";
 import type Expense from "@/entities/expense.model";
+import type Inventory from "@/entities/inventory.model";
 import type User from "@/entities/user.model";
 
 export type UserContextType = {
@@ -39,4 +40,14 @@ export type ExpenseContextType = {
   fetchExpenses: () => Promise<void>;
   fetchExpensesByDepartment: () => Promise<void>;
   refetchExpenses: () => Promise<void>;
+};
+
+export type InventoryContextType = {
+  inventories: Inventory[];
+  inventoriesByDepartment:Inventory[];
+  loadingInventory: boolean;
+  errorInventory?: string;
+  fetchInventories: () => Promise<void>;
+  fetchInventoriesByDepartment: () => Promise<void>;
+  refetchInventories: () => Promise<void>;
 };

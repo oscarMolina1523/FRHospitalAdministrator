@@ -22,7 +22,7 @@ export default class InventoryService extends HTTPService {
     return Inventory.fromJson(response);
   }
 
-  async getAppointmentByDepartment() {
+  async getInventoryByDepartment() {
     const response = await super.get(`${this.path}/area`);
     const data = response.data || [];
     return data.map((item: any) => Inventory.fromJson(item));

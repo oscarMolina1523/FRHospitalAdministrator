@@ -1,11 +1,23 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { getInventoryColumns } from "./inventoryColumns";
 import type Inventory from "@/entities/inventory.model";
 import { DataTable } from "@/components/dataTable";
 import { inventoryData as data } from "@/data/inventory.data";
+import { useInventoryContext } from "@/context/InventoryContext";
 
 const InventoryPage: React.FC = () => {
+  const {
+    inventories: data,
+    loadingInventory,
+    errorInventory,
+    fetchInventories,
+  } = useInventoryContext();
+
+  useEffect(() => {
+    fetchInventories();
+  }, [fetchInventories]);
+
   function handleEdit(inventory: Inventory) {
     console.log("Editar inventory:", inventory);
   }
@@ -18,12 +30,22 @@ const InventoryPage: React.FC = () => {
 
   const lowStockItems = data.filter((item) => item.quantity < 50);
 
+  if (loadingInventory) {
+    return <div className="p-4 text-gray-500">Cargando inventario...</div>;
+  }
+
+  if (errorInventory) {
+    return <div className="p-4 text-red-600">Error: {errorInventory}</div>;
+  }
+
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">
       <div className="w-full flex flex-row items-center justify-between">
         <div>
           <p className="text-[#0f172a] text-[1.25rem] leading-7">Inventarios</p>
-          <p className="text-gray-500">Alertas de bajo stock: {lowStockItems.length}</p>
+          <p className="text-gray-500">
+            Alertas de bajo stock: {lowStockItems.length}
+          </p>
         </div>
         <div>
           <Button className="bg-sky-600 text-white">Nuevo Inventario</Button>
