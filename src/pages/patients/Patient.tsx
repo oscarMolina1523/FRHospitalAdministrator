@@ -1,11 +1,22 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { getPatientColumns } from "./patientColumns";
-import { patientData as data } from "@/data/patient.data";
 import type Patient from "@/entities/patient.model";
 import { DataTable } from "@/components/dataTable";
+import { usePatientContext } from "@/context/PatientContext";
 
 const PatientPage: React.FC = () => {
+  const {
+    patients: data,
+    loadingPatient,
+    errorPatient,
+    fetchPatients,
+  } = usePatientContext();
+
+  useEffect(() => {
+    fetchPatients();
+  }, [fetchPatients]);
+
   function handleEdit(patient: Patient) {
     console.log("Editar patient:", patient);
   }
@@ -15,6 +26,14 @@ const PatientPage: React.FC = () => {
   }
 
   const columns = getPatientColumns(handleEdit, handleDelete);
+
+  if (loadingPatient) {
+    return <div className="p-4 text-gray-500">Cargando pacientes...</div>;
+  }
+
+  if (errorPatient) {
+    return <div className="p-4 text-red-600">Error: {errorPatient}</div>;
+  }
 
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">

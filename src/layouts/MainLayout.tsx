@@ -6,6 +6,7 @@ import { ExpenseProvider } from "@/context/ExpenseContext";
 import { InventoryProvider } from "@/context/InventoryContext";
 import { MedicalServiceProvider } from "@/context/MedicalServiceContext";
 import { MedicationProvider } from "@/context/MedicationContext";
+import { PatientProvider } from "@/context/PatientContext";
 import { UserProvider } from "@/context/UserContext";
 import React from "react";
 import { Outlet } from "react-router-dom";
@@ -18,23 +19,25 @@ const MainLayout: React.FC = () => {
         <div className="w-1/4 px-2">
           <Sidebar />
         </div>
-        <MedicalServiceProvider>
-          <MedicationProvider>
-            <InventoryProvider>
-              <ExpenseProvider>
-                <BillingProvider>
-                  <AppointmentProvider>
-                    <UserProvider>
-                      <div className="w-3/4 px-2">
-                        <Outlet />
-                      </div>
-                    </UserProvider>
-                  </AppointmentProvider>
-                </BillingProvider>
-              </ExpenseProvider>
-            </InventoryProvider>
-          </MedicationProvider>
-        </MedicalServiceProvider>
+        <PatientProvider>
+          <MedicalServiceProvider>
+            <MedicationProvider>
+              <InventoryProvider>
+                <ExpenseProvider>
+                  <BillingProvider>
+                    <AppointmentProvider>
+                      <UserProvider>
+                        <div className="w-3/4 px-2">
+                          <Outlet />
+                        </div>
+                      </UserProvider>
+                    </AppointmentProvider>
+                  </BillingProvider>
+                </ExpenseProvider>
+              </InventoryProvider>
+            </MedicationProvider>
+          </MedicalServiceProvider>
+        </PatientProvider>
       </div>
     </div>
   );

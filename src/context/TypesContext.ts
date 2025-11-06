@@ -4,6 +4,7 @@ import type Expense from "@/entities/expense.model";
 import type Inventory from "@/entities/inventory.model";
 import type MedicalService from "@/entities/medicalService.model";
 import type { Medication } from "@/entities/medication.model";
+import type Patient from "@/entities/patient.model";
 import type User from "@/entities/user.model";
 
 export type UserContextType = {
@@ -70,4 +71,14 @@ export type MedicalServiceContextType = {
   fetchMedicalServices: () => Promise<void>;
   fetchMedicalServicesByDepartment: () => Promise<void>;
   refetchMedicalServices: () => Promise<void>;
+};
+
+export type PatientContextType = {
+  patients: Patient[];
+  patientsByDepartment:Patient[];
+  loadingPatient: boolean;
+  errorPatient?: string;
+  fetchPatients: () => Promise<void>;
+  fetchPatientsByDepartment: () => Promise<void>;
+  refetchPatients: () => Promise<void>;
 };
