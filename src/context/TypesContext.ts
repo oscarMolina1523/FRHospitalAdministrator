@@ -7,4 +7,5 @@ export type UserContextType = {
   errorUser?: string;
   fetchUsers: () => Promise<void>;
   fetchUsersByDepartment: () => Promise<void>;
+  refetchUsers: () => Promise<void>;
 };

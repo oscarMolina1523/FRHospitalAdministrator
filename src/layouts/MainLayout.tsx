@@ -1,5 +1,6 @@
 import Navbar from "@/components/navbar";
 import Sidebar from "@/components/sidebar";
+import { UserProvider } from "@/context/UserContext";
 import React from "react";
 import { Outlet } from "react-router-dom";
 
@@ -11,7 +12,11 @@ const MainLayout: React.FC = () => {
         <div className="w-1/4 px-2">
           <Sidebar />
         </div>
-        <div className="w-3/4 px-2"><Outlet /></div>
+        <UserProvider>
+          <div className="w-3/4 px-2">
+            <Outlet />
+          </div>
+        </UserProvider>
       </div>
     </div>
   );

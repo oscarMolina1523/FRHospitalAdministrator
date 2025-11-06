@@ -11,6 +11,7 @@ export default class UserService extends HTTPService {
 
   async getUsers(): Promise<User[]> {
     const response = await super.get(this.path);
+    
     const data = response.data || [];
     return data.map((item: any) => User.fromJson(item));
   }

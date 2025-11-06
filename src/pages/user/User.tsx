@@ -1,11 +1,18 @@
 import { Button } from "@/components/ui/button";
-import React from "react";
+import React, { useEffect } from "react";
 import { getUserColumns } from "./userColumns";
-import { userData as data } from "@/data/user.data";
+// import { userData as data } from "@/data/user.data";
 import { DataTable } from "@/components/dataTable";
 import type User from "@/entities/user.model";
+import { useUserContext } from "@/context/UserContext";
 
 const UserPage: React.FC = () => {
+  const { users: data, loadingUser, errorUser, fetchUsers } = useUserContext();
+
+  useEffect(() => {
+    fetchUsers();
+  }, [fetchUsers]);
+
   function handleEdit(user: User) {
     console.log("Editar user:", user);
   }
@@ -15,6 +22,14 @@ const UserPage: React.FC = () => {
   }
 
   const columns = getUserColumns(handleEdit, handleDelete);
+
+  if (loadingUser) {
+    return <div className="p-4 text-gray-500">Cargando usuarios...</div>;
+  }
+
+  if (errorUser) {
+    return <div className="p-4 text-red-600">Error: {errorUser}</div>;
+  }
 
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">

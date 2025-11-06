@@ -19,18 +19,23 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [usersByDepartment, setUsersByDepartment] = useState<User[]>([]);
   const [loadingUser, setLoadingUser] = useState<boolean>(false);
   const [errorUser, setErrorUser] = useState<string>();
+  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const token = localStorage.getItem("authToken")
 
   const fetchUsers = useCallback(async () => {
+    if (isLoaded && users.length > 0) return;
+
     setLoadingUser(true);
     try {
       const allUsers = await userService.getUsers();
       setUsers(allUsers);
+      setIsLoaded(true); // marcamos como cacheado
     } catch (error) {
       setErrorUser("Error fetching users: " + error);
     } finally {
       setLoadingUser(false);
     }
-  }, []);
+  }, [users, isLoaded]);
 
   const fetchUsersByDepartment = useCallback(async () => {
     setLoadingUser(true);
@@ -44,9 +49,15 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   }, []);
 
-  useEffect(() => {
-    fetchUsers();
+  const refetchUsers = useCallback(async () => {
+    setIsLoaded(false); // limpiamos cache para que vuelva a hacer la peticion
+    await fetchUsers(); // recargamos datos
   }, [fetchUsers]);
+
+  useEffect(() => {
+    if(!token) return;
+    fetchUsers();
+  }, [fetchUsers, token]);
 
   return (
     <UserContext.Provider
@@ -57,6 +68,7 @@ export const UserProvider: React.FC<{ children: React.ReactNode }> = ({ children
         errorUser,
         fetchUsers,
         fetchUsersByDepartment,
+        refetchUsers
       }}
     >
       {children}
