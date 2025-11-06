@@ -5,7 +5,6 @@ export default class User extends BaseModel {
   email: string;
   password: string;
   roleId: string; 
-  active: boolean;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string; 
@@ -18,7 +17,6 @@ export default class User extends BaseModel {
     email,
     password,
     roleId,
-    active,
     createdAt,
     updatedAt,
     createdBy,
@@ -30,7 +28,6 @@ export default class User extends BaseModel {
     email: string;
     password: string;
     roleId: string;
-    active: boolean;
     createdAt?: Date;
     updatedAt?: Date;
     createdBy?: string;
@@ -42,7 +39,6 @@ export default class User extends BaseModel {
     this.email = email;
     this.password = password;
     this.roleId = roleId;
-    this.active = active;
     this.createdAt = createdAt;
     this.updatedAt = updatedAt;
     this.createdBy = createdBy;
@@ -56,7 +52,6 @@ export default class User extends BaseModel {
     const email = String(json["email"] || "");
     const password = String(json["password"] || "");
     const roleId = String(json["roleId"] || "");
-    const active = Boolean(json["active"]);
     const departmentId = json["departmentId"] ? String(json["departmentId"]) : undefined;
     const createdAt = json["createdAt"] ? new Date(json["createdAt"]) : undefined;
     const updatedAt = json["updatedAt"] ? new Date(json["updatedAt"]) : undefined;
@@ -69,7 +64,6 @@ export default class User extends BaseModel {
       email,
       password,
       roleId,
-      active,
       departmentId,
       createdAt,
       updatedAt,
@@ -84,7 +78,6 @@ export default class User extends BaseModel {
     const email = String(json["email"] || "");
     const password = String(json["password"] || "");
     const roleId = String(json["roleId"] || "");
-    const active = Boolean(json["active"]);
     const departmentId = json["departmentId"] ? String(json["departmentId"]) : undefined;
 
     return new User({
@@ -93,7 +86,6 @@ export default class User extends BaseModel {
       email,
       password,
       roleId,
-      active,
       departmentId,
     });
   }
@@ -104,7 +96,6 @@ export default class User extends BaseModel {
       email: this.email,
       password: this.password,
       roleId: this.roleId,
-      active: this.active,
       departmentId: this.departmentId,
     };
   }
