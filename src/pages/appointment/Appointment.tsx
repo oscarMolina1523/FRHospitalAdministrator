@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";  // Cambié useRef por useState
+import React, { useEffect, useState } from "react";
 import { Calendar } from "@/components/ui/calendar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -39,7 +39,7 @@ const AppointmentPage: React.FC = () => {
   const [deleteOpen, setDeleteOpen] = useState(false);
   const [deleteId, setDeleteId] = useState<string | null>(null);
 
-  // Form states (controlados, reemplazan los refs)
+  // Form states
   const [patientId, setPatientId] = useState("");
   const [departmentId, setDepartmentId] = useState("");
   const [doctorId, setDoctorId] = useState("");
@@ -160,7 +160,7 @@ const AppointmentPage: React.FC = () => {
             Nueva Cita
           </Button>
         </div>
-        {/* Edit dialog (controlled) */}
+        {/* Edit dialog  */}
         <Dialog open={editOpen} onOpenChange={setEditOpen}>
           <DialogContent
             className="sm:max-w-[425px] max-h-[80vh] overflow-y-auto"
@@ -248,7 +248,7 @@ const AppointmentPage: React.FC = () => {
           </DialogContent>
         </Dialog>
 
-        {/* Delete confirmation dialog (controlled) */}
+        {/* Delete confirmation dialog  */}
         <Dialog open={deleteOpen} onOpenChange={setDeleteOpen}>
           <DialogContent className="sm:max-w-[400px]">
             <DialogHeader>
@@ -268,7 +268,7 @@ const AppointmentPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
-      {/* Resto del código (calendario, citas del día, tabla) permanece igual */}
+      {/* table code*/}
       <div className="flex flex-row gap-2">
         <Calendar
           mode="single"
