@@ -44,7 +44,7 @@ export const BillingPage: React.FC = () => {
   const [serviceId, setServiceId] = useState("");
   const [amount, setAmount] = useState(0);
   const [status, setStatus] = useState<BillingStatus | "">("");
-  const [paymentMethod, setPaymentMethod] = useState<Payment | "">(""); // String para datetime-local
+  const [paymentMethod, setPaymentMethod] = useState<Payment | "">(""); 
 
   useEffect(() => {
     fetchBillings();
