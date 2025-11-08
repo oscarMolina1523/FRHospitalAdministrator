@@ -268,7 +268,7 @@ const AppointmentPage: React.FC = () => {
           </DialogContent>
         </Dialog>
       </div>
-      {/* table code*/}
+      {/* principal code*/}
       <div className="flex flex-row gap-2">
         <Calendar
           mode="single"
