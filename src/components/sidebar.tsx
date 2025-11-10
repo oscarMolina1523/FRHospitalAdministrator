@@ -1,3 +1,4 @@
+import { useRolePermissions } from "@/hooks/useRolePermitions";
 import { Accessibility, Book, BrickWallShield, Calendar, ChartArea, ClipboardClock, Home, LogOut, Pill, PillBottle, Stethoscope, User2, Wallet } from "lucide-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -20,6 +21,11 @@ const items = [
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
+  const {permissions} = useRolePermissions();
+
+  const filteredItems = items.filter((item) =>
+    permissions.includes(item.url)
+  );
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -30,7 +36,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <div className="bg-white h-full rounded-2xl items-start justify-start flex flex-col gap-2 p-4">
-      {items.map((item) => {
+      {filteredItems.map((item) => {
         const isActive = location.pathname === item.url;
         return (
           <div
