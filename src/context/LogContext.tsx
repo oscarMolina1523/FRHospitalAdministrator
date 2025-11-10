@@ -19,12 +19,8 @@ export const LogProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [isLoaded, setIsLoaded] = useState<boolean>(false);
 
   const fetchLogs = useCallback(async () => {
-    if (isLoaded && logs.length > 0) {
-      console.log("⚡ Logs already loaded, skipping fetch");
-      return;
-    }
-
-    console.log("📡 Fetching audit logs...");
+    if (isLoaded && logs.length > 0) return;
+    
     setLoadingLog(true);
     try {
       const allLogs = await logService.getAuditLogs();

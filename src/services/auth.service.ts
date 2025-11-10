@@ -5,14 +5,11 @@ export default class AuthService extends HTTPService {
   async signIn(email: string, password: string) {
     const body = { email: email, password: password };
     const json = await this.post("auth/login", body);
-    console.log("Respuesta del login:", json);
 
     // Si no hay token, el login falló
     if (!json.token) {
       throw new Error(json.message || "Credenciales inválidas");
     }
-
-    localStorage.setItem("currentUser", JSON.stringify(json.user));
 
     return new Token(json.token);
   }
@@ -24,7 +21,6 @@ export default class AuthService extends HTTPService {
 
     const body = { username, email: newemail, password: newpassword };
     const json = await this.post("auth/register", body);
-    console.log("Respuesta del registro:", json);
 
     // Verificar si hubo error del backend
     if (!json.success) {

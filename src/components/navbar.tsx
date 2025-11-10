@@ -1,17 +1,8 @@
-import User from "@/entities/user.model";
+import { getUserFromToken } from "@/hooks/getUserFromToken";
 import React from "react";
 
 const Navbar: React.FC = () => {
-
-  let stored = localStorage.getItem("currentUser");
-
-  let data: User | null = null;
-
-  if (stored) {
-    const parsed = JSON.parse(stored);
-
-    data = User.fromJson(parsed);
-  }
+  const data = getUserFromToken();
 
   return (
     <div className="h-20 w-screen flex flex-row bg-white">
