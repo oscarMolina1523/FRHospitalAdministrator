@@ -185,6 +185,7 @@ const UserPage: React.FC = () => {
                   <label htmlFor="password">Contraseña</label>
                   <Input
                     id="password"
+                    type="password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                   />

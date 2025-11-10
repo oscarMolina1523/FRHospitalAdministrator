@@ -3,7 +3,7 @@ import { getUserFromToken } from "./getUserFromToken";
 
 // Tabla de permisos por rol
 export const rolePermissions: Record<string, string[]> = {
-  "r-admin": [
+  "r-junta": [
     "/home",
     "/billing",
     "/expense",
@@ -24,7 +24,7 @@ export const rolePermissions: Record<string, string[]> = {
   "r-enfermero": ["/medical-service", "/patient"],
   "r-jefe-depto": ["/billing", "/expense"],
   "r-ceo": ["/dashboard", "/log", "/billing", "/expense"],
-  "r-junta": ["/dashboard", "/log", "/billing", "/expense"],
+//   "r-junta": ["/dashboard", "/log", "/billing", "/expense"],
   "r-auxiliar": ["/billing", "/expense"],
   //le doy todos los permisos debido a que la gente que desee registrarse 
   //y ver el software lo pueda ver completo pero sin permisos de modificacion
