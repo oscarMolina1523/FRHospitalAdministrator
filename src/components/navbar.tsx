@@ -1,8 +1,16 @@
+import { useRoleContext } from "@/context/RoleContext";
 import { getUserFromToken } from "@/hooks/getUserFromToken";
 import React from "react";
 
 const Navbar: React.FC = () => {
+  const { roles } = useRoleContext();
   const data = getUserFromToken();
+
+  const rolesMap = React.useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const p of roles) m[p.id] = p.name || p.id;
+    return m;
+  }, [roles]);
 
   return (
     <div className="h-20 w-screen flex flex-row bg-white">
@@ -13,7 +21,7 @@ const Navbar: React.FC = () => {
       </div>
       <div className="w-1/2 h-full flex flex-col items-end justify-end py-4 px-8 ">
         <p className="font-medium">{data?.username}</p>
-        <p className="text-[#64748b]">{data?.roleId}</p>
+        <p className="text-[#64748b]">{data?.roleId ? rolesMap[data.roleId] ?? data.roleId : ""}</p>
       </div>
     </div>
   );

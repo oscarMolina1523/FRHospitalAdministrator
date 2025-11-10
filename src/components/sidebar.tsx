@@ -1,5 +1,19 @@
 import { useRolePermissions } from "@/hooks/useRolePermitions";
-import { Accessibility, Book, BrickWallShield, Calendar, ChartArea, ClipboardClock, Home, LogOut, Pill, PillBottle, Stethoscope, User2, Wallet } from "lucide-react";
+import {
+  Accessibility,
+  Book,
+  BrickWallShield,
+  Calendar,
+  ChartArea,
+  ClipboardClock,
+  Home,
+  LogOut,
+  Pill,
+  PillBottle,
+  Stethoscope,
+  User2,
+  Wallet,
+} from "lucide-react";
 import React from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -21,11 +35,9 @@ const items = [
 const Sidebar: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const {permissions} = useRolePermissions();
+  const { permissions } = useRolePermissions();
 
-  const filteredItems = items.filter((item) =>
-    permissions.includes(item.url)
-  );
+  const filteredItems = items.filter((item) => permissions.includes(item.url));
 
   const handleLogout = () => {
     localStorage.removeItem("authToken");
@@ -43,7 +55,9 @@ const Sidebar: React.FC = () => {
             key={item.title}
             onClick={() => navigate(item.url)}
             className={`w-full rounded-xl h-8 p-2 flex flex-row gap-4 items-center justify-start cursor-pointer transition-colors ${
-              isActive ? "bg-sky-500 text-white font-medium" : "hover:bg-sky-300 hover:text-white"
+              isActive
+                ? "bg-sky-500 text-white font-medium"
+                : "hover:bg-sky-300 hover:text-white"
             }`}
           >
             <item.icon className="h-4 w-4" />
@@ -51,8 +65,11 @@ const Sidebar: React.FC = () => {
           </div>
         );
       })}
-      <div className="flex flex-row gap-2 w-full rounded-xl h-8 p-2 items-center justify-start cursor-pointer transition-colors hover:bg-sky-300 hover:text-white" onClick={handleLogout}>
-        <LogOut className="w-4 h-4"/>
+      <div
+        className="flex flex-row gap-2 w-full rounded-xl h-8 p-2 items-center justify-start cursor-pointer transition-colors hover:bg-sky-300 hover:text-white"
+        onClick={handleLogout}
+      >
+        <LogOut className="w-4 h-4" />
         Cerrar Sesion
       </div>
     </div>

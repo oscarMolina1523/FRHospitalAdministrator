@@ -10,19 +10,19 @@ export function getAppointmentColumns(
 ): ColumnDef<Appointment>[] {
   return [
     {
-      accessorKey: "patientId",
+      accessorKey: "patientName",
       header: "Paciente",
-      cell: ({ row }) => <div>{row.getValue("patientId")}</div>,
+      cell: ({ row }) => <div>{row.getValue("patientName") ?? row.getValue("patientId")}</div>,
     },
     {
-      accessorKey: "doctorId",
+      accessorKey: "doctorName",
       header: "Doctor",
-      cell: ({ row }) => <div>{row.getValue("doctorId")}</div>,
+      cell: ({ row }) => <div>{row.getValue("doctorName") ?? row.getValue("doctorId")}</div>,
     },
     {
-      accessorKey: "departmentId",
+      accessorKey: "departmentName",
       header: "Departamento",
-      cell: ({ row }) => <div>{row.getValue("departmentId")}</div>,
+      cell: ({ row }) => <div>{row.getValue("departmentName") ?? row.getValue("departmentId")}</div>,
     },
     {
       accessorKey: "status",

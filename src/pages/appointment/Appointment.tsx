@@ -6,6 +6,9 @@ import Appointment from "@/entities/appointment.model";
 import { DataTable } from "@/components/dataTable";
 import { getAppointmentColumns } from "./appointmentColumns";
 import { useAppointmentContext } from "@/context/AppointmentContext";
+import { usePatientContext } from "@/context/PatientContext";
+import { useUserContext } from "@/context/UserContext";
+import { useDepartmentContext } from "@/context/DepartmentContext";
 import AppointmentService from "@/services/appointment.service";
 import {
   Dialog,
@@ -98,6 +101,39 @@ const AppointmentPage: React.FC = () => {
   }
 
   const columns = getAppointmentColumns(handleEdit, handleDelete);
+  
+  // Build lookup maps from global contexts so we can enrich appointments without extra requests
+  const { patients } = usePatientContext();
+  const { users } = useUserContext();
+  const { departments } = useDepartmentContext();
+
+  const patientsMap = React.useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const p of patients) m[p.id] = `${p.firstName || ""} ${p.lastName || ""}`.trim() || p.id;
+    return m;
+  }, [patients]);
+
+  const usersMap = React.useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const u of users) m[u.id] = u.username || u.id;
+    return m;
+  }, [users]);
+
+  const departmentsMap = React.useMemo(() => {
+    const m: Record<string, string> = {};
+    for (const d of departments) m[d.id] = d.name || d.id;
+    return m;
+  }, [departments]);
+
+  // Enrich appointments with readable names (no extra API calls)
+  const enrichedData = React.useMemo(() => {
+    return data.map((a) => ({
+      ...a,
+      patientName: patientsMap[a.patientId] ?? a.patientId,
+      doctorName: usersMap[a.doctorId] ?? a.doctorId,
+      departmentName: departmentsMap[a.departmentId] ?? a.departmentId,
+    }));
+  }, [data, patientsMap, usersMap, departmentsMap]);
 
   // Populate edit form when selectedAppointment changes
   useEffect(() => {
@@ -278,15 +314,15 @@ const AppointmentPage: React.FC = () => {
         />
         <div className="border flex flex-col gap-4 max-w-92 rounded-2xl p-4 border-gray-300">
           <p className="font-medium leading-2">Citas del día</p>
-          {data.slice(0, 3).map((item, index) => (
+          {enrichedData.slice(0, 3).map((item, index) => (
             <div
               key={index}
               className="flex flex-row bg-[#f8fafc] rounded-2xl p-4"
             >
               <div>
                 <p className="text-left">
-                  Paciente: {item.patientId} — {item.doctorId} (
-                  {item.departmentId}) —{" "}
+                  Paciente: {item.patientName} — {item.doctorName} (
+                  {item.departmentName}) —{" "}
                   {item.scheduledAt.toLocaleTimeString("es-NI", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -301,15 +337,15 @@ const AppointmentPage: React.FC = () => {
         </div>
         <div className="border flex flex-col gap-4 max-w-92 rounded-2xl p-4 border-gray-300">
           <p className="font-medium leading-2">Próximas citas</p>
-          {data.slice(0, 3).map((item, index) => (
+          {enrichedData.slice(0, 3).map((item, index) => (
             <div
               key={index}
               className="flex flex-row bg-[#f8fafc] rounded-2xl p-4"
             >
               <div>
                 <p className="text-left">
-                  Paciente: {item.patientId} — {item.doctorId} (
-                  {item.departmentId}) —{" "}
+                  Paciente: {item.patientName} — {item.doctorName} (
+                  {item.departmentName}) —{" "}
                   {item.scheduledAt.toLocaleTimeString("es-NI", {
                     hour: "2-digit",
                     minute: "2-digit",
@@ -327,8 +363,8 @@ const AppointmentPage: React.FC = () => {
       <div className="mt-6">
         <DataTable
           columns={columns}
-          data={data}
-          filterColumn="patientId"
+          data={enrichedData as unknown as Appointment[]}
+          filterColumn="patientName"
           filterPlaceholder="Filtrar por paciente..."
         />
       </div>

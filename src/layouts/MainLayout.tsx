@@ -17,14 +17,14 @@ import { Outlet } from "react-router-dom";
 const MainLayout: React.FC = () => {
   return (
     <div className="w-full h-full flex flex-col gap-4">
-      <Navbar />
-      <div className="w-full flex flex-row h-full">
-        <div className="w-1/4 px-2">
-          <Sidebar />
-        </div>
-        <LogProvider>
-          <DepartmentProvider>
-            <RoleProvider>
+      <RoleProvider>
+        <Navbar />
+        <div className="w-full flex flex-row h-full">
+          <div className="w-1/4 px-2">
+            <Sidebar />
+          </div>
+          <LogProvider>
+            <DepartmentProvider>
               <PatientProvider>
                 <MedicalServiceProvider>
                   <MedicationProvider>
@@ -44,10 +44,10 @@ const MainLayout: React.FC = () => {
                   </MedicationProvider>
                 </MedicalServiceProvider>
               </PatientProvider>
-            </RoleProvider>
-          </DepartmentProvider>
-        </LogProvider>
-      </div>
+            </DepartmentProvider>
+          </LogProvider>
+        </div>
+      </RoleProvider>
     </div>
   );
 };
