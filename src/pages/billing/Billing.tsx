@@ -17,6 +17,11 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { usePatientContext } from "@/context/PatientContext";
+import { useAppointmentContext } from "@/context/AppointmentContext";
+import { useDepartmentContext } from "@/context/DepartmentContext";
+import { useMedicalServiceContext } from "@/context/MedicalServiceContext";
+import { useEntityMap } from "@/hooks/useEntityMap";
 
 const service = new BillingService();
 
@@ -28,6 +33,11 @@ export const BillingPage: React.FC = () => {
     fetchBillings,
     refetchBillings,
   } = useBillingContext();
+
+  const { patients } = usePatientContext();
+  const { appointments } = useAppointmentContext();
+  const { departments } = useDepartmentContext();
+  const { medicalServices } = useMedicalServiceContext();
 
   // Edit dialog state
   const [editOpen, setEditOpen] = useState(false);
@@ -44,7 +54,7 @@ export const BillingPage: React.FC = () => {
   const [serviceId, setServiceId] = useState("");
   const [amount, setAmount] = useState(0);
   const [status, setStatus] = useState<BillingStatus | "">("");
-  const [paymentMethod, setPaymentMethod] = useState<Payment | "">(""); 
+  const [paymentMethod, setPaymentMethod] = useState<Payment | "">("");
 
   useEffect(() => {
     fetchBillings();
@@ -99,6 +109,21 @@ export const BillingPage: React.FC = () => {
   }
 
   const columns = getBillingColumns(handleEdit, handleDelete);
+
+  const patientsMap = useEntityMap(patients, "id", "fullName");
+  const appointmentsMap = useEntityMap(appointments, "id", "notes");
+  const departmentsMap = useEntityMap(departments, "id", "name");
+  const servicesMap = useEntityMap(medicalServices, "id", "name");
+
+  const enrichedData = React.useMemo(() => {
+    return data.map((a) => ({
+      ...a,
+      patientName: patientsMap[a.patientId] ?? a.patientId,
+      appointmentName: appointmentsMap[a.appointmentId!] ?? a.appointmentId,
+      departmentName: departmentsMap[a.departmentId] ?? a.departmentId,
+      serviceName: servicesMap[a.serviceId] ?? a.serviceId,
+    }));
+  }, [data, patientsMap, appointmentsMap, departmentsMap, servicesMap]);
 
   // Populate edit form when selectedBilling changes
   useEffect(() => {
@@ -305,8 +330,8 @@ export const BillingPage: React.FC = () => {
       <div className="mt-6 w-full">
         <DataTable
           columns={columns}
-          data={data}
-          filterColumn="serviceId"
+          data={enrichedData as unknown as Billing[]}
+          filterColumn="serviceName"
           filterPlaceholder="Filtrar por servicios..."
         />
       </div>

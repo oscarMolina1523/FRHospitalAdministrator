@@ -11,14 +11,22 @@ export function getExpenseColumns(
 ): ColumnDef<Expense>[] {
   return [
     {
-      accessorKey: "departmentId",
+      accessorKey: "departmentName",
       header: "Departamento",
-      cell: ({ row }) => <div>{row.getValue("departmentId")}</div>,
+      cell: ({ row }) => (
+        <div>
+          {row.getValue("departmentName") ?? row.getValue("departmentId")}
+        </div>
+      ),
     },
     {
       accessorKey: "description",
       header: "Descripción",
-      cell: ({ row }) => <div>{row.getValue("description")}</div>,
+      cell: ({ row }) => (
+        <div className="whitespace-normal text-left wrap-break-word max-w-xs">
+          {row.getValue("description")}
+        </div>
+      ),
     },
     {
       accessorKey: "category",

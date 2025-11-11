@@ -16,6 +16,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
+import { useDepartmentContext } from "@/context/DepartmentContext";
+import { useEntityMap } from "@/hooks/useEntityMap";
 
 const service = new ExpenseService();
 
@@ -27,6 +29,8 @@ const ExpensePage: React.FC = () => {
     fetchExpenses,
     refetchExpenses,
   } = useExpenseContext();
+
+  const { departments } = useDepartmentContext();
 
   // Edit dialog state
   const [editOpen, setEditOpen] = useState(false);
@@ -88,6 +92,15 @@ const ExpensePage: React.FC = () => {
   }
 
   const columns = getExpenseColumns(handleEdit, handleDelete);
+
+  const departmentsMap = useEntityMap(departments, "id", "name");
+
+  const enrichedData = React.useMemo(() => {
+    return data.map((a) => ({
+      ...a,
+      departmentName: departmentsMap[a.departmentId] ?? a.departmentId,
+    }));
+  }, [data, departmentsMap]);
 
   // Populate edit form when selectedExpense changes
   useEffect(() => {
@@ -223,8 +236,8 @@ const ExpensePage: React.FC = () => {
             <DialogHeader>
               <DialogTitle>Confirmar eliminación</DialogTitle>
               <DialogDescription>
-                ¿Estás seguro que deseas eliminar este gasto? Esta acción no
-                se puede deshacer.
+                ¿Estás seguro que deseas eliminar este gasto? Esta acción no se
+                puede deshacer.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -256,8 +269,8 @@ const ExpensePage: React.FC = () => {
       <div className="mt-6 w-full">
         <DataTable
           columns={columns}
-          data={data}
-          filterColumn="departmentId"
+          data={enrichedData as unknown as Expense[]}
+          filterColumn="departmentName"
           filterPlaceholder="Filtrar por departamento..."
         />
       </div>

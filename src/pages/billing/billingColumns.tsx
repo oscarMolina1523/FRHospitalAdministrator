@@ -12,24 +12,36 @@ export function getBillingColumns(
 ): ColumnDef<Billing>[] {
   return [
     {
-      accessorKey: "patientId",
+      accessorKey: "patientName",
       header: "Paciente",
-      cell: ({ row }) => <div>{row.getValue("patientId")}</div>,
+      cell: ({ row }) => (
+        <div>{row.getValue("patientName") ?? row.getValue("patientId")}</div>
+      ),
     },
     {
-      accessorKey: "appointmentId",
+      accessorKey: "appointmentName",
       header: "Cita",
-      cell: ({ row }) => <div>{row.getValue("appointmentId")}</div>,
+      cell: ({ row }) => (
+        <div className="whitespace-normal text-left wrap-break-word max-w-xs">
+          {row.getValue("appointmentName") ?? row.getValue("appointmentId")}
+        </div>
+      ),
     },
     {
-      accessorKey: "serviceId",
+      accessorKey: "serviceName",
       header: "Servicio",
-      cell: ({ row }) => <div>{row.getValue("serviceId")}</div>,
+      cell: ({ row }) => (
+        <div>{row.getValue("serviceName") ?? row.getValue("serviceId")}</div>
+      ),
     },
     {
-      accessorKey: "departmentId",
+      accessorKey: "departmentName",
       header: "Departamento",
-      cell: ({ row }) => <div>{row.getValue("departmentId")}</div>,
+      cell: ({ row }) => (
+        <div>
+          {row.getValue("departmentName") ?? row.getValue("departmentId")}
+        </div>
+      ),
     },
     {
       accessorKey: "amount",
@@ -70,23 +82,24 @@ export function getBillingColumns(
       header: "Pago",
       cell: ({ row }) => {
         const method = row.getValue("paymentMethod") as Payment;
-        const variant = method === Payment.CASH ? "bg-green-500" : "bg-blue-500";
+        const variant =
+          method === Payment.CASH ? "bg-green-500" : "bg-blue-500";
         return <Badge className={variant}>{method}</Badge>;
       },
     },
-    {
-      accessorKey: "createdAt",
-      header: "Creado",
-      cell: ({ row }) => {
-        const date = new Date(row.getValue("createdAt"));
-        return date.toLocaleDateString("es-NI", {
-          weekday: "short",
-          day: "2-digit",
-          month: "short",
-          year: "numeric",
-        });
-      },
-    },
+    // {
+    //   accessorKey: "createdAt",
+    //   header: "Creado",
+    //   cell: ({ row }) => {
+    //     const date = new Date(row.getValue("createdAt"));
+    //     return date.toLocaleDateString("es-NI", {
+    //       weekday: "short",
+    //       day: "2-digit",
+    //       month: "short",
+    //       year: "numeric",
+    //     });
+    //   },
+    // },
     {
       id: "actions",
       header: "Acciones",
