@@ -5,6 +5,7 @@ export default class User extends BaseModel {
   email: string;
   password: string;
   roleId: string; 
+  active?:number;
   createdAt?: Date;
   updatedAt?: Date;
   createdBy?: string; 
@@ -16,6 +17,7 @@ export default class User extends BaseModel {
     username,
     email,
     password,
+    active,
     roleId,
     createdAt,
     updatedAt,
@@ -27,6 +29,7 @@ export default class User extends BaseModel {
     username: string;
     email: string;
     password: string;
+    active?:number;
     roleId: string;
     createdAt?: Date;
     updatedAt?: Date;
@@ -44,6 +47,7 @@ export default class User extends BaseModel {
     this.createdBy = createdBy;
     this.updatedBy = updatedBy;
     this.departmentId = departmentId;
+    this.active=active;
   }
 
   static fromJson(json: any): User {
@@ -51,6 +55,7 @@ export default class User extends BaseModel {
     const username = String(json["username"] || "");
     const email = String(json["email"] || "");
     const password = String(json["password"] || "");
+    const active = Number(json["active"] || "");
     const roleId = String(json["roleId"] || "");
     const departmentId = json["departmentId"] ? String(json["departmentId"]) : undefined;
     const createdAt = json["createdAt"] ? new Date(json["createdAt"]) : undefined;
@@ -63,6 +68,7 @@ export default class User extends BaseModel {
       username,
       email,
       password,
+      active,
       roleId,
       departmentId,
       createdAt,

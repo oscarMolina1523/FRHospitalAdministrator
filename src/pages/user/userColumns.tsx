@@ -52,21 +52,22 @@ export function getUserColumns(
         );
       },
     },
-    // {
-    //   accessorKey: "active",
-    //   header: "Estado",
-    //   cell: ({ row }) => {
-    //     const active = row.getValue("active") as boolean;
-    //     return (
-    //       <Badge
-    //         variant={active ? "default" : "destructive"}
-    //         className={active ? "bg-green-600" : "bg-red-600"}
-    //       >
-    //         {active ? "Activo" : "Inactivo"}
-    //       </Badge>
-    //     );
-    //   },
-    // },
+    {
+      accessorKey: "active",
+      header: "Estado",
+      cell: ({ row }) => {
+        const active = row.getValue("active") as boolean;
+        console.log("active value", active);
+        return (
+          <Badge
+            variant={active ? "default" : "destructive"}
+            className={active ? "bg-green-600" : "bg-red-600"}
+          >
+            {active ? "Activo" : "Inactivo"}
+          </Badge>
+        );
+      },
+    },
     {
       accessorKey: "createdAt",
       header: "Creado",
