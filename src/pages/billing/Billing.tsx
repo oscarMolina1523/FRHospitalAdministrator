@@ -157,6 +157,53 @@ export const BillingPage: React.FC = () => {
     setDeleteId(null);
   }
 
+  const totalFacturadoMes = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    return data
+      .filter((b) => {
+        const bDate = new Date(b.createdAt!); // Asumiendo que tus facturas tienen createdAt
+        return (
+          bDate.getMonth() === currentMonth &&
+          bDate.getFullYear() === currentYear
+        );
+      })
+      .reduce((acc, b) => acc + b.amount, 0);
+  }, [data]);
+
+  const totalPendienteMes = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    return data
+      .filter((b) => {
+        const bDate = new Date(b.createdAt!);
+        return (
+          bDate.getMonth() === currentMonth &&
+          bDate.getFullYear() === currentYear &&
+          b.status === BillingStatus.PENDING
+        );
+      })
+      .reduce((acc, b) => acc + b.amount, 0);
+  }, [data]);
+
+  const totalPagadoMes = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    return data
+      .filter((b) => {
+        const bDate = new Date(b.paidAt! || b.createdAt);
+        return (
+          bDate.getMonth() === currentMonth &&
+          bDate.getFullYear() === currentYear &&
+          b.status === BillingStatus.PAID
+        );
+      })
+      .reduce((acc, b) => acc + b.amount, 0);
+  }, [data]);
+
   if (loadingBilling) {
     return <div className="p-4 text-gray-500">Cargando facturas...</div>;
   }
@@ -315,15 +362,15 @@ export const BillingPage: React.FC = () => {
       <div className="grid grid-cols-3 gap-2 w-full h-24">
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
           <span className="text-[#475569] ">Total facturado este mes</span>
-          <span className="font-semibold text-[1.5rem]">C$1000</span>
+          <span className="font-semibold text-[1.5rem]">C${totalFacturadoMes}</span>
         </div>
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
-          <span className="text-[#475569] ">Pendiente</span>
-          <span className="font-semibold text-[1.5rem]">C$150</span>
+          <span className="text-[#475569] ">Pendiente del mes</span>
+          <span className="font-semibold text-[1.5rem]">C${totalPendienteMes}</span>
         </div>
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
-          <span className="text-[#475569] ">Pagado</span>
-          <span className="font-semibold text-[1.5rem]">C$1800</span>
+          <span className="text-[#475569] ">Pagado en el dia</span>
+          <span className="font-semibold text-[1.5rem]">C${totalPagadoMes}</span>
         </div>
       </div>
       {/* table */}

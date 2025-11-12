@@ -128,6 +128,65 @@ const ExpensePage: React.FC = () => {
     setDeleteId(null);
   }
 
+  // Total de gastos del mes actual
+  const totalGastosMes = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    return data
+      .filter((e) => {
+        const eDate = new Date(e.createdAt!); 
+        return (
+          eDate.getMonth() === currentMonth &&
+          eDate.getFullYear() === currentYear
+        );
+      })
+      .reduce((acc, e) => acc + e.amount, 0);
+  }, [data]);
+
+  // Categoría principal (la que más gasto tiene este mes)
+  const categoriaPrincipal = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const gastosMes = data.filter((e) => {
+      const eDate = new Date(e.createdAt!);
+      return (
+        eDate.getMonth() === currentMonth && eDate.getFullYear() === currentYear
+      );
+    });
+
+    if (gastosMes.length === 0) return "N/A";
+
+    // Agrupar por categoría
+    const totalsByCategory: Record<string, number> = {};
+    gastosMes.forEach((e) => {
+      totalsByCategory[e.category] =
+        (totalsByCategory[e.category] || 0) + e.amount;
+    });
+
+    // Obtener categoría con mayor monto
+    return Object.entries(totalsByCategory).sort((a, b) => b[1] - a[1])[0][0];
+  }, [data]);
+
+  // Gasto promedio del mes
+  const gastoPromedioMes = React.useMemo(() => {
+    const currentMonth = new Date().getMonth();
+    const currentYear = new Date().getFullYear();
+
+    const gastosMes = data.filter((e) => {
+      const eDate = new Date(e.createdAt!);
+      return (
+        eDate.getMonth() === currentMonth && eDate.getFullYear() === currentYear
+      );
+    });
+
+    if (gastosMes.length === 0) return 0;
+
+    const total = gastosMes.reduce((acc, e) => acc + e.amount, 0);
+    return total / gastosMes.length;
+  }, [data]);
+
   if (loadingExpense) {
     return <div className="p-4 text-gray-500">Cargando gastos...</div>;
   }
@@ -254,15 +313,15 @@ const ExpensePage: React.FC = () => {
       <div className="grid grid-cols-3 gap-2 w-full h-24">
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
           <span className="text-[#475569] ">Gastos del mes</span>
-          <span className="font-semibold text-[1.5rem]">C$1000</span>
+          <span className="font-semibold text-[1.5rem]">C${totalGastosMes}</span>
         </div>
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
           <span className="text-[#475569] ">Categoria Principal</span>
-          <span className="font-semibold text-[1.5rem]">C$150</span>
+          <span className="font-semibold text-[1.5rem]">{categoriaPrincipal}</span>
         </div>
         <div className="border border-gray-300 rounded-2xl text-left flex flex-col gap-2 p-4">
           <span className="text-[#475569] ">Gasto promedio</span>
-          <span className="font-semibold text-[1.5rem]">C$1800</span>
+          <span className="font-semibold text-[1.5rem]">C${gastoPromedioMes.toFixed(2)}</span>
         </div>
       </div>
       {/* table */}
