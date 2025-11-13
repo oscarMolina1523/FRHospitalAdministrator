@@ -8,7 +8,7 @@ import ErrorPage from "@/pages/Error";
 import ExpensePage from "@/pages/expense/Expense";
 import InventoryPage from "@/pages/inventory/Inventory";
 import LoginPage from "@/pages/Login";
-import AuditLogPage from "@/pages/logs/AuditLog";
+import AuditLogPage from "@/pages/auditLogs/Log";
 import MedicalServicePage from "@/pages/medicalService/MedicalService";
 import MedicationPage from "@/pages/medication/Medication";
 import PatientPage from "@/pages/patients/Patient";
