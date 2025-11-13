@@ -18,7 +18,7 @@ export function getMedicationColumns(
       accessorKey: "description",
       header: "Descripción",
       cell: ({ row }) => (
-        <div className="text-sm text-gray-700 line-clamp-2 max-w-xs">
+        <div className="text-sm text-gray-700 line-clamp-2 whitespace-normal text-left wrap-break-word max-w-xs">
           {row.getValue("description")}
         </div>
       ),
