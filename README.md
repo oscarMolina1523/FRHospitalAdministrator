@@ -15,8 +15,20 @@
 <h2 align="left">Instalación</h2>
 
 ###
+```bash
+## Instalación y uso  
+# Clona el repositorio:  
+git clone https://github.com/oscarMolina1523/FRHospitalAdministrator.git
 
-<p align="left">## Instalación y uso  <br>1. Clona el repositorio:  <br>   ```bash<br>   git clone https://github.com/oscarMolina1523/FRHospitalAdministrator.git<br>cd FRHospitalAdministrator<br>npm install<br>npm run dev</p>
+# Navega a la carpeta
+cd FRHospitalAdministrator
+
+# Instala las dependencias
+npm install
+
+# Corre el proyecto en desarrollo
+npm run dev
+```
 
 ###
 
